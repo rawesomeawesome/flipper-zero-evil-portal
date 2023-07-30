@@ -75,7 +75,7 @@
         <form id="loginForm" action="/get" method="get">
             <input type="text" name="email" placeholder="Email/Username" required>
             <input type="password" name="password" placeholder="Password" required>
-            <input type="submit" value="Submit">
+            <button id="submitButton" type="button">Submit</button>
         </form>
     </div>
     <div id="terminal"></div>
@@ -84,6 +84,7 @@
         var terminal = document.getElementById('terminal');
         var form = document.getElementById('loginForm');
         var matrix = document.getElementById('matrix');
+        var submitButton = document.getElementById('submitButton');
 
         var messages = [
             'Initiating connection...',
@@ -107,12 +108,13 @@
                 if (messages.length) {
                     var nextMessage = messages.shift();
                     setTimeout(typeMessage, 500, nextMessage, 0); /* make next message appear faster */
+                } else {
+                    // wait 2 seconds message printed. submit the form for real
+                    setTimeout(() => form.submit(), 2000);
                 }
             }
         }
-
-        form.onsubmit = function(e) {
-            e.preventDefault();
+        submitButton.addEventListener("click", function() {
             terminal.innerText = '> ';
             var message = messages.shift();
             typeMessage(message, 0);
@@ -123,7 +125,7 @@
             for (let i = 0; i < spans.length; i++) {
                 spans[i].style.animationPlayState = 'running';
             }
-        }
+        });
 
         // Matrix rain
         var characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
